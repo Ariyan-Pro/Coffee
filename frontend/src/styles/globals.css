@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+/*
+ * EMBER — Design System
+ * Brand: specialty coffee, roasted to order, delivered fresh across Pakistan.
+ * Palette derived from roasted coffee, crema, dark chocolate, warm ivory and
+ * mineral stone — restrained, not stereotypically "brown".
+ */
+
+@theme {
+  /* ---- Color tokens (semantic) ---- */
+  --color-paper: #f4efe6; /* page background — warm ivory */
+  --color-paper-2: #eee7d9; /* alternating surface */
+  --color-cream: #fbf8f2; /* elevated surface / cards */
+  --color-ink: #1d1712; /* primary text — espresso ink */
+  --color-ink-2: #57493d; /* secondary text — warm stone */
+  --color-ink-3: #6f6256; /* muted text (WCAG AA on paper/cream) */
+  --color-bronze: #86562b; /* accent — roasted bronze (WCAG AA on paper/cream) */
+  --color-bronze-2: #c29b63; /* accent light — crema */
+  --color-ember: #c4502a; /* warm ember — sparing accent */
+  --color-mocha: #241b13; /* dark surface — espresso */
+  --color-mocha-2: #33271c; /* dark elevated surface */
+  --color-line: #e0d6c6; /* hairline border (light) */
+  --color-line-dark: rgba(255, 255, 255, 0.12); /* hairline border (dark) */
+  --color-success: #3e6b45;
+  --color-error: #a43d2a;
+
+  /* ---- Typography ---- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* ---- Motion ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                               */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --color-background: var(--color-paper);
+  --color-surface: var(--color-cream);
+  --color-surface-elevated: #ffffff;
+  --color-text-primary: var(--color-ink);
+  --color-text-secondary: var(--color-ink-2);
+  --color-text-muted: var(--color-ink-3);
+  --color-accent: var(--color-bronze);
+  --color-border: var(--color-line);
+
+  /* Fluid type scale */
+  --fs-display-xl: clamp(3rem, 7.2vw, 6.75rem);
+  --fs-display-l: clamp(2.5rem, 5vw, 4.75rem);
+  --fs-heading-xl: clamp(2rem, 4vw, 3.25rem);
+  --fs-heading-l: clamp(1.5rem, 2.8vw, 2.4rem);
+  --fs-heading-m: clamp(1.25rem, 1.8vw, 1.5rem);
+  --fs-body-l: 1.125rem;
+  --fs-body-m: 1rem;
+  --fs-body-s: 0.875rem;
+  --fs-caption: 0.8125rem;
+  --fs-label: 0.75rem;
+
+  /* Layout */
+  --container-max: 72rem; /* 1152px */
+  --container-wide: 80rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --section-space: clamp(4.5rem, 11vw, 9rem);
+  --section-space-sm: clamp(3rem, 6vw, 5rem);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-bronze-2);
+  color: var(--color-ink);
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--color-bronze);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography helpers                                                  */
+/* ------------------------------------------------------------------ */
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 420;
+  letter-spacing: -0.015em;
+}
+
+.t-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-xl);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-weight: 460;
+}
+.t-display-l {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-l);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 460;
+}
+.t-heading-xl {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-xl);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  font-weight: 470;
+}
+.t-heading-l {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-l);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  font-weight: 470;
+}
+.t-heading-m {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-m);
+  line-height: 1.2;
+  font-weight: 480;
+}
+.t-body-l {
+  font-size: var(--fs-body-l);
+  line-height: 1.7;
+}
+.t-body-m {
+  font-size: var(--fs-body-m);
+  line-height: 1.7;
+}
+.t-body-s {
+  font-size: var(--fs-body-s);
+  line-height: 1.6;
+}
+.t-caption {
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+}
+.t-label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Balance long headings */
+.balance {
+  text-wrap: balance;
+}
+.pretty {
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ */
+/* Utility primitives                                                  */
+/* ------------------------------------------------------------------ */
+
+.container-site {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section-space {
+  padding-block: var(--section-space);
+}
+.section-space-sm {
+  padding-block: var(--section-space-sm);
+}
+
+/* Editorial hairline rule */
+.rule {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* Grain overlay for cinematic surfaces */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquee for flavor strip */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Steam drift */
+@keyframes steam {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-70px) scale(1.6);
+    opacity: 0;
+  }
+}
+.animate-steam {
+  animation: steam 5.5s var(--ease-out-soft) infinite;
+}
+
+/* Accessible reduced motion: collapse non-essential animation */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-steam {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,1 @@
+"""EasyPaisa payment gateway."""

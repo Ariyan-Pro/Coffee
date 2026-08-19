@@ -1,0 +1,1 @@
+"""JazzCash payment gateway."""

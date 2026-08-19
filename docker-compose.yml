@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      - DATABASE_URL=postgresql+psycopg://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@postgres:5432/${POSTGRES_DB:-coffee_db}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET must be set in .env}
+      - WEBHOOK_HMAC_SECRET=${WEBHOOK_HMAC_SECRET:-}
+      - ENABLE_DOCS=${ENABLE_DOCS:-}
+      - MOCK_WEBHOOK_ENABLED=${MOCK_WEBHOOK_ENABLED:-}
+      - REDIS_URL=redis://redis:6379/0
+      - PUBLIC_BASE_URL=http://localhost:8000
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - JAZZCASH_MERCHANT_ID=
+      - JAZZCASH_PASSWORD=
+      - EASYPAISA_STORE_ID=
+      - EASYPAISA_HASH_KEY=
+      - WHATSAPP_API_URL=
+      - WHATSAPP_API_KEY=
+      - WHATSAPP_SENDER=
+    depends_on:
+      - postgres
+      - redis
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  worker:
+    build: .
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      - DATABASE_URL=postgresql+psycopg://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@postgres:5432/${POSTGRES_DB:-coffee_db}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET must be set in .env}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    command: celery -A app.tasks.celery_app.celery_app worker --loglevel=info
+
+  beat:
+    build: .
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+    command: celery -A app.tasks.celery_app.celery_app beat --loglevel=info
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-coffee_db}
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:
